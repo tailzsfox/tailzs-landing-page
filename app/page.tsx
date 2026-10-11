@@ -1,10 +1,53 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { TrendingUp, ShieldCheck, Bell, Sparkles } from "lucide-react"
-import { LegalModal } from "@/components/legal-modal"
-import { PrivacyContent, TermsContent } from "@/components/legal-content"
-import { StoreBadges } from "@/components/store-badges"
+import { TrendingUp, ShieldCheck, Bell, Sparkles, X, Apple, Play } from "lucide-react"
+
+// Inline Store Badges
+function StoreBadges({ variant = "dark" }: { variant?: "dark" | "light" }) {
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href="#download"
+        className={`flex items-center gap-3 px-6 py-3 rounded-xl border transition ${
+          variant === "dark"
+            ? "bg-slate-900 border-slate-800 text-white hover:bg-slate-800"
+            : "bg-white border-slate-200 text-slate-900 hover:bg-slate-50"
+        }`}
+      >
+        <Apple className="h-6 w-6 fill-current" />
+        <div className="text-left">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400">Download on the</div>
+          <div className="text-sm font-semibold">App Store</div>
+        </div>
+      </a>
+      <a
+        href="#download"
+        className={`flex items-center gap-3 px-6 py-3 rounded-xl border transition ${
+          variant === "dark"
+            ? "bg-slate-900 border-slate-800 text-white hover:bg-slate-800"
+            : "bg-white border-slate-200 text-slate-900 hover:bg-slate-50"
+        }`}
+      >
+        <Play className="h-6 w-6 fill-current" />
+        <div className="text-left">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400">GET IT ON</div>
+          <div className="text-sm font-semibold">Google Play</div>
+        </div>
+      </a>
+    </div>
+  )
+}
+
+// Inline Wordmark Logo
+function Wordmark({ className }: { className?: string }) {
+  return (
+    <span className={className}>
+      <span className="text-orange-500 font-extrabold">TAIL</span>
+      <span className="text-blue-500 font-extrabold">ZS</span>
+    </span>
+  )
+}
 
 const features = [
   {
@@ -23,15 +66,6 @@ const features = [
     body: "Follow College Football (NCAAF) and MLB side by side with custom insignia and line movement alerts.",
   },
 ]
-
-function Wordmark({ className }: { className?: string }) {
-  return (
-    <span className={className}>
-      <span className="text-orange-500 font-extrabold">TAIL</span>
-      <span className="text-blue-500 font-extrabold">ZS</span>
-    </span>
-  )
-}
 
 export default function Home() {
   const [legalModalOpen, setLegalModalOpen] = useState(false)
@@ -55,7 +89,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-orange-500 selection:text-white">
-      {/* Navigation */}
       <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-3">
@@ -83,9 +116,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main id="top" className="flex-1">
-        {/* Hero Section */}
         <section className="relative overflow-hidden py-20 px-6 text-center md:py-32">
           <div className="mx-auto max-w-4xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-xs font-semibold text-orange-400 mb-6">
@@ -108,7 +139,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Section */}
         <section id="features" className="border-t border-slate-900 bg-slate-900/50 py-20 px-6">
           <div className="mx-auto max-w-6xl">
             <div className="text-center mb-16">
@@ -131,7 +161,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Download Section */}
         <section id="download" className="py-20 px-6 text-center border-t border-slate-900">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl font-bold text-white sm:text-4xl mb-4">Download Tailzs</h2>
@@ -141,7 +170,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer id="support" className="border-t border-slate-900 bg-slate-950 py-12 px-6 text-sm text-slate-500">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
           <p>© {new Date().getFullYear()} Tailzs. All rights reserved.</p>
@@ -168,14 +196,34 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Legal Modal */}
-      <LegalModal
-        isOpen={legalModalOpen}
-        onClose={() => setLegalModalOpen(false)}
-        title={legalModalType === "privacy" ? "Privacy Policy" : "Terms of Service"}
-      >
-        {legalModalType === "privacy" ? <PrivacyContent /> : <TermsContent />}
-      </LegalModal>
+      {legalModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-300 shadow-xl max-h-[80vh] overflow-y-auto">
+            <button
+              onClick={() => setLegalModalOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <h3 className="text-xl font-bold text-white mb-4">
+              {legalModalType === "privacy" ? "Privacy Policy" : "Terms of Service"}
+            </h3>
+            <div className="space-y-4 text-sm leading-relaxed">
+              {legalModalType === "privacy" ? (
+                <>
+                  <p>At Tailzs, we respect your privacy and are committed to protecting your personal data.</p>
+                  <p>We collect minimal information required to provide analytics and subscription access. We never sell your personal data to third parties.</p>
+                </>
+              ) : (
+                <>
+                  <p>By using Tailzs, you agree to these Terms of Service.</p>
+                  <p>Tailzs provides sports analytics for informational purposes only. We do not facilitate sports wagering or gambling services.</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
